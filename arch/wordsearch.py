@@ -1,4 +1,3 @@
-
 import csv
 import sys
 import os
@@ -16,9 +15,9 @@ for filename in os.listdir(directory):
                 for field in row:
                     try:
                         loc = field.index(' hiv ')
+                        print(field[loc-10:loc+10])
                     except ValueError:
                         pass
                     else:
                         count = count + 1
-    if count%10 == 0:
-        print(count)
+
