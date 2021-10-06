@@ -6,49 +6,30 @@ import time
 import gzip
 import csv
 import os
+import sys
+import string
 
-
-def process_file(file):
+'''
+from processfile import process_file
+process_file('/mnt/storage/geocities/geocities-aut-csv-derivatives/webpages/part-04439-325f80ee-3749-4d6f-baec-3dc32abfb75d-c000.csv')
+'''
+def process_file(filepath):
     csv.field_size_limit(sys.maxsize)
-    filename = os.path.basename(file)
-    with open(file, 'rt') as f:
-            reader = csv.reader((line.replace('\0','') for line in f), delimiter=",")
-            for row in reader:
-                try:
-                    loc = row[6].index(' hiv ')
-                    with open("/home/cmbrow38/arch/results/"+ filename + ".txt", "w") as f:
-                        f.write(row[0] + ','  + row[2] + ',' + row[6][loc-50:loc+50] + "\n")
-                except ValueError:
-                    pass
-    
-    
+    filename = os.path.basename(filepath)
+    keywords = ['aids', 'hiv', 'grid','hiv/aids']
 
-
-
-
-    with open('results/allaccounts.csv') as csvfile:
-        reader = csv.DictReader(csvfile)
+    with open(filepath, 'rt') as f:
+        reader = csv.reader((line.replace('\0','') for line in f), delimiter=",")
         for row in reader:
             try:
-                susaccounts.add(int(row['userid']))
-            except Exception as e:
-                print(e)
+                total_count = []
+                processed_string = row[6].lower().translate(str.maketrans('', '', string.punctuation))
+                for keyword in keywords:
+                    count = processed_string.count(keyword)
+                    total_count.append(count)
+                if sum(total_count) > 0:
+                    with open("/home/cmbrow38/covid-misinformation/arch/results/"+ filename, "a") as output:
+                        output.write(row[0] + ',"'  + row[2] + '",' + ','.join(str(e) for e in total_count) +  "\n")
+            except ValueError:
                 pass
-    base = '/mnt/storage/ows_raw/'
-    count1 = 0
-    count2 = 0
-    count3 = 0
-    with gzip.open(base + filename,'rb') as f:
-        for line in f:
-            line = line.strip()
-            try:
-                tweet = simplejson.loads(line)
-                if ("entities" in tweet and "text" in tweet):
-                    count1 = count1 + 1
-                    if tweet["user"]["id"] in susaccounts:
-                        count2 = count2 + 1
-                    for mention in tweet["entities"]["user_mentions"]:
-                        if mention["id"] in susaccounts:
-                            count3 = count3 + 1
-            except Exception as e:
 
