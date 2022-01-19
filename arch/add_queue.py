@@ -6,6 +6,11 @@ from rq.registry import FailedJobRegistry, Job
 import time
 import os
 
+#delete previous files
+dir = '/home/cmbrow38/covid-misinformation/arch/results'
+for f in os.listdir(dir):
+    os.remove(os.path.join(dir, f))
+
 # Tell RQ what Redis connection to use
 redis_conn = Redis()
 q = Queue('files',connection=redis_conn)  # no args implies the default queue
