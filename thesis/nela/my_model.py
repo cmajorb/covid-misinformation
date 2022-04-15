@@ -17,8 +17,8 @@ from sklearn.model_selection import cross_val_score
 
 np.random.seed(500)
 
-df = pd.read_csv("train.csv")
-
+df = pd.read_csv("final.csv")
+df = df[["input","output"]]
 stop_words = set(stopwords.words('english'))
 
 def stemmer(text):
