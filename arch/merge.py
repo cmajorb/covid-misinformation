@@ -1,11 +1,14 @@
 import os
 
-base = "results/"
+base = "results2/"
 count = 0
-with open('combined.csv','w') as mainfile:
-    mainfile.write('ID,URL,aids,hiv,grids,aids/hiv,virus\n')
-
+with open('combined2.csv','w') as mainfile:
+    #mainfile.write('ID,URL,aids,hiv,grids,aids/hiv,virus\n')
+    #mainfile.write('ID,URL,text\n')
     for f in os.listdir(base):
         with open(base + f, "r") as infile:
+            header = False
             for line in infile:
-                mainfile.write(line)
+                if header:
+                    mainfile.write(line)
+                header = True
