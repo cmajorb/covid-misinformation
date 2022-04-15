@@ -14,7 +14,8 @@ for f in os.listdir(dir):
 # Tell RQ what Redis connection to use
 redis_conn = Redis()
 q = Queue('files',connection=redis_conn)  # no args implies the default queue
-base = "/mnt/storage/geocities/geocities-aut-csv-derivatives/webpages/"
+#base = "/mnt/storage/geocities/geocities-aut-csv-derivatives/webpages/"
+base = "/mnt/storage/geocities/geocities-aut-csv-derivatives/webgraph/"
 
 
 

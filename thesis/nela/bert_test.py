@@ -78,7 +78,7 @@ trainer = Trainer(
     model=model, args=training_args, train_dataset=train_dataset, eval_dataset=eval_dataset
 )
 
-trainer.train("test_trainer/checkpoint-9500")
+trainer.train()
 
 
 import numpy as np
